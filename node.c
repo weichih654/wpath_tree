@@ -90,25 +90,31 @@ void free_tree (NODE* node)
 void dump_node (NODE* node)
 {
     NODE* n = node;
+    int space_count = 4;
     while (n != NULL)
     {
         char space[MAX_PATH_LENGTH] = {};
         int i = 0;
-        for (i = 0; i < n->level * 4; ++i)
+        for (i = 0; i < n->level * space_count; ++i)
         {
-            if (i < (n->level - 1) * 4)
+            if (n->parent != NULL && n->parent->next != NULL && i == (n->level - 2) * space_count && ((n->next == NULL && n->child == NULL)))
+                strcat(space, "|");
+            else if (i < (n->level - 1) * space_count)
             {
-                space [i] = ' ';
+                strcat(space, " ");
             }
             else
             {
-                if (i == (n->level - 1) * 4)
-                    space [i] = '|';
+                if (n->next != NULL && i == (n->level - 1) * space_count)
+                    strcat(space, "├");
+                else if (i == (n->level - 1) * space_count)
+                    strcat(space, "└");
+                else if (i == (n->level - 1) * space_count + space_count - 1)
+                    strcat(space, " ");
                 else
-                    space [i] = '-';
+                    strcat(space, "─");
             }
         }
-        space [n->level * 4] = '\0';
         printf ("%s%s\n", space, n->name);
         if (n->child != NULL)
         {
