@@ -62,20 +62,17 @@ void dump_node (NODE* node)
     NODE* n = node;
     while (n != NULL)
     {
-        char* space = NULL;
-        space = (char*) malloc ((n->level) * 4);
-        RET_ON_NULL (space, );
+        char space[4096] = {};
         int i = 0;
         for (i = 0; i < n->level * 4; ++i)
         {
             space [i] = ' ';
         }
         space [n->level * 4] = '\0';
-        char fullpath [2048] = {};
+        char fullpath [4096] = {};
         get_full_path (n, fullpath, sizeof (fullpath));
         LOG ("%s[%s]%s -> ", space, (n->type == D) ? "D" : "F", n->name);
         LOG_RED ("%s\n", fullpath);
-        free (space);
         if (n->child != NULL)
         {
             dump_node (n->child);

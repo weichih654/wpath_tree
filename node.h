@@ -8,7 +8,7 @@ typedef enum {
 
 typedef struct node
 {
-    char name[2048];
+    char name[4096];
     struct node* parent;
     struct node* child;
     struct node* next;
