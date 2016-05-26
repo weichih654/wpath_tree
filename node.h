@@ -1,5 +1,6 @@
 #ifndef NODE_HEADER
 #define NODE_HEADER
+#define MAX_PATH_LENGTH 4096
 typedef enum {
     NONE = 0,
     D,
@@ -8,7 +9,7 @@ typedef enum {
 
 typedef struct node
 {
-    char name[4096];
+    char* name;
     struct node* parent;
     struct node* child;
     struct node* next;

@@ -7,13 +7,16 @@
 
 NODE* create_node (char* name)
 {
+    int name_len = strlen (name);
     NODE* n = (NODE*) malloc (sizeof (NODE));
     n->parent = NULL;
     n->child = NULL;
     n->next = NULL;
     n->type = NONE;
     n->level = 0;
+    n->name = (char*) malloc (name_len + 1);
     strcpy (n->name, name);
+    n->name[name_len] = '\0';
     return n;
 }
 
@@ -62,14 +65,14 @@ void dump_node (NODE* node)
     NODE* n = node;
     while (n != NULL)
     {
-        char space[4096] = {};
+        char space[MAX_PATH_LENGTH] = {};
         int i = 0;
         for (i = 0; i < n->level * 4; ++i)
         {
             space [i] = ' ';
         }
         space [n->level * 4] = '\0';
-        char fullpath [4096] = {};
+        char fullpath [MAX_PATH_LENGTH] = {};
         get_full_path (n, fullpath, sizeof (fullpath));
         LOG ("%s[%s]%s -> ", space, (n->type == D) ? "D" : "F", n->name);
         LOG_RED ("%s\n", fullpath);
