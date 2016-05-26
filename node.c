@@ -87,6 +87,21 @@ void free_tree (NODE* node)
     }
 }
 
+static int show_line (NODE* node, int check_level)
+{
+    NODE* n = node;
+    while (n)
+    {
+        if (n->level == check_level + 1)
+        {
+            if (n->next != NULL)
+                return 1; 
+        }
+        n = n->parent;
+    }
+    return 0;
+}
+
 void dump_node (NODE* node)
 {
     NODE* n = node;
@@ -97,22 +112,27 @@ void dump_node (NODE* node)
         int i = 0;
         for (i = 0; i < n->level * space_count; ++i)
         {
-            if (n->parent != NULL && n->parent->next != NULL && i == (n->level - 2) * space_count && ((n->next == NULL && n->child == NULL)))
-                strcat(space, "|");
-            else if (i < (n->level - 1) * space_count)
+            if (i % space_count == 0) // "|" or "├" or "└"
             {
-                strcat(space, " ");
+                if (i == (n->level - 1) * space_count && n->next == NULL)
+                {
+                    strcat (space, "└");
+                }
+                if (i == (n->level - 1) * space_count && n->next != NULL)
+                {
+                    strcat (space, "├");
+                }
+                else if (show_line (n, i / space_count))
+                    strcat (space, "|");
             }
-            else
+            else // " " or "─"
             {
-                if (n->next != NULL && i == (n->level - 1) * space_count)
-                    strcat(space, "├");
-                else if (i == (n->level - 1) * space_count)
-                    strcat(space, "└");
-                else if (i == (n->level - 1) * space_count + space_count - 1)
-                    strcat(space, " ");
+                if (i > (n->level - 1) * space_count && i < n->level * space_count - 1)
+                {
+                    strcat (space, "─");
+                }
                 else
-                    strcat(space, "─");
+                    strcat (space, " ");
             }
         }
         printf ("%s%s\n", space, n->name);
