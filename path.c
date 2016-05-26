@@ -65,5 +65,6 @@ int create_tree (char* path)
 {
     create_folder_tree (NULL, path);
     dump_node (root_node);
+    free_tree (root_node);
 }
 

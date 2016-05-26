@@ -14,3 +14,11 @@ do { \
         return _RET_; \
 } while (0)
 
+#define FREE(_PTR_) \
+do { \
+    if (_PTR_ != NULL) \
+    { \
+        free (_PTR_); \
+        _PTR_ = NULL; \
+    } \
+} while (0)

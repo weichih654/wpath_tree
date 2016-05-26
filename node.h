@@ -21,4 +21,5 @@ NODE* create_node (char* name);
 void append_child (NODE* parent, NODE* child);
 void dump_node (NODE* node);
 void get_full_path (NODE* leaf_node, char* fullpath, int path_len);
+void free_tree (NODE* root_node);
 #endif //NODE_HEADER

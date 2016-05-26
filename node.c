@@ -7,14 +7,16 @@
 
 NODE* create_node (char* name)
 {
-    int name_len = strlen (name);
     NODE* n = (NODE*) malloc (sizeof (NODE));
+    RET_ON_NULL (n, NULL);
+    int name_len = strlen (name);
     n->parent = NULL;
     n->child = NULL;
     n->next = NULL;
     n->type = NONE;
     n->level = 0;
     n->name = (char*) malloc (name_len + 1);
+    RET_ON_NULL (n->name, NULL);
     strcpy (n->name, name);
     n->name[name_len] = '\0';
     return n;
@@ -58,6 +60,31 @@ void get_full_path (NODE* leaf_node, char* fullpath, int path_len)
     }
     path [strlen(path)] = '\0';
     strcpy (fullpath, path);
+}
+
+static void free_node (NODE* node)
+{
+    RET_ON_NULL (node, );
+    FREE (node->name);
+    FREE (node);
+}
+
+void free_tree (NODE* node)
+{
+    RET_ON_NULL (node, );
+    NODE* n = node;
+    while (n != NULL)
+    {
+        if (n->child != NULL)
+        {
+            free_tree (n->child);
+            n->child = NULL;
+        }
+        NODE* _n = n;
+        n = n->next;
+        free_node (_n);
+        _n = NULL;
+    }
 }
 
 void dump_node (NODE* node)
