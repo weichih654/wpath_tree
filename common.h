@@ -1,6 +1,9 @@
+#define LOG_ENABLE (0)
+
 #define LOG(FORMAT, ...) \
 do { \
-    printf ("%s:%d [%s] "FORMAT, __FILE__, __LINE__, __func__, ##__VA_ARGS__); \
+    if (LOG_ENABLE) \
+        printf ("%s:%d [%s] "FORMAT, __FILE__, __LINE__, __func__, ##__VA_ARGS__); \
 } while (0)
 
 #define LOG_RED(_FMT_, ...) \

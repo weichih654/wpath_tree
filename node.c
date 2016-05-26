@@ -96,13 +96,20 @@ void dump_node (NODE* node)
         int i = 0;
         for (i = 0; i < n->level * 4; ++i)
         {
-            space [i] = ' ';
+            if (i < (n->level - 1) * 4)
+            {
+                space [i] = ' ';
+            }
+            else
+            {
+                if (i == (n->level - 1) * 4)
+                    space [i] = '|';
+                else
+                    space [i] = '-';
+            }
         }
         space [n->level * 4] = '\0';
-        char fullpath [MAX_PATH_LENGTH] = {};
-        get_full_path (n, fullpath, sizeof (fullpath));
-        LOG ("%s[%s]%s -> ", space, (n->type == D) ? "D" : "F", n->name);
-        LOG_RED ("%s\n", fullpath);
+        printf ("%s%s\n", space, n->name);
         if (n->child != NULL)
         {
             dump_node (n->child);
