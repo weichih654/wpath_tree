@@ -118,12 +118,14 @@ void dump_node (NODE* node)
                 {
                     strcat (space, "└");
                 }
-                if (i == (n->level - 1) * space_count && n->next != NULL)
+                else if (i == (n->level - 1) * space_count && n->next != NULL)
                 {
                     strcat (space, "├");
                 }
                 else if (show_line (n, i / space_count))
                     strcat (space, "|");
+                else
+                    strcat (space, " ");
             }
             else // " " or "─"
             {
